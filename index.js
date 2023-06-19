@@ -40,20 +40,30 @@ async function main() {
     })
 
     app.post('/recipes', async (req, res) => {
-        let results = await db.collection('recipes').insertOne({
-            title: req.body.title,
-            ingredients: req.body.ingredients
-        })
-        res.json(results);
-    })
+        const { title, ingredients } = req.body;
 
-    app.patch('/recipes/:id', async (req, res) => {
+        // Validation: ingredients must be an array of strings
+        if (!Array.isArray(ingredients) || !ingredients.every(ingredient => typeof ingredient === 'string')) {
+            return res.status(400).json({ error: 'Ingredients must be an array of strings' });
+        }
+
+        let results = await db.collection('recipes').insertOne({ title, ingredients });
+        res.json(results);
+    });
+
+    app.put('/recipes/:id', async (req, res) => {
+        const { title, ingredients } = req.body;
+        // Validation: ingredients must be an array of strings
+        if (!Array.isArray(ingredients) || !ingredients.every(ingredient => typeof ingredient === 'string')) {
+            return res.status(400).json({ error: 'Ingredients must be an array of strings' });
+        }
+
         let results = await db.collection('recipes').updateOne({
             '_id': new ObjectId(req.params.id),
         }, {
             '$set': {
-                'title': req.body.title,
-                'ingredients': req.body.ingredients
+                'title': title,
+                'ingredients': ingredients
             }
         })
         res.json({
