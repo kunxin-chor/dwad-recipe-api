@@ -4,7 +4,7 @@
 This API provides CRUD operations for managing recipes in a MongoDB database. The base URL for all endpoints is:
 
 ```
-http://localhost:8888
+https://dwad-recipe-api.onrender.com
 ```
 
 ## Recipes API

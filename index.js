@@ -77,6 +77,6 @@ main();
 
 // START SERVER
 // note: we set port to 8888 so it won't clash with React
-app.listen(8888, () => {
+app.listen(process.env.PORT || 8888, () => {
     console.log("server has started")
 })
